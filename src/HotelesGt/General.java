@@ -2,6 +2,7 @@ package HotelesGt;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
@@ -28,7 +30,13 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
+
+
 public class General {
+	JFrame menuP = new JFrame();
+	JPanel panel = new JPanel();
+	JLabel label1 = new JLabel();
+	
 	JButton Agregar  = new JButton();
 	JButton salir = new JButton();
 	JButton Modificar  = new JButton();
@@ -37,11 +45,37 @@ public class General {
 	JScrollPane scroll = new JScrollPane();
 	JButton guardar = new JButton();
 	JButton cancelar = new JButton();
-	Conexion con = new Conexion();
+	Conexion c = new Conexion();
 	Clientes cl = new Clientes();
 	Usuarios u = new Usuarios();
 	Object[][] clientes = new Object[100][6];
+		
 
+	Usuarios pro = new Usuarios();
+	public void componentes() {
+		menuP.setTitle("Hoteles GT - Usuarios ");
+		menuP.setBounds(500, 300, 900, 600);
+		menuP.setLocationRelativeTo(null);
+		panel.setBounds(500, 300, 900, 600);
+		panel.setLayout(null);
+		/*menuP.setJMenuBar(bm);
+		salir.addSeparator();
+		
+		bm.add(agregar);
+		bm.add(salir);*/
+
+		menuP.add(panel);
+		label1.setText("USUARIO: ");
+		label1.setFont(new Font("Serig", Font.PLAIN,15));
+		label1.setBounds(600,0,100,60);
+		panel.add(label1);
+		
+		menuP.setVisible(true);
+		menuP.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+			
+	}
+	
 	public void boton () {
 		Agregar.setText("Agregar Usuario");
 		Agregar.setBounds(0, 0, 180, 40);
@@ -89,7 +123,7 @@ public class General {
 		
 		Statement st;
 		String sql = " select * from usuarios";
-		Connection conexion = con.Conectar();
+		Connection conexion = c.Conectar();
 		DefaultTableModel model = new DefaultTableModel();
 		model.addColumn("No");//1
 		model.addColumn("Nombre");//2
@@ -130,6 +164,7 @@ public class General {
 		JFrame ventana_crear = new JFrame();
 		JPanel panelCrear = new JPanel();
 		panelCrear.setLayout(null);
+		ButtonGroup bg = new ButtonGroup();
 		JLabel titulo = new JLabel();
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
@@ -147,7 +182,13 @@ public class General {
 		JPasswordField t7 = new JPasswordField();
 
 		JRadioButton activo = new JRadioButton("activo", true);
+		activo.setFont(new Font("Serig", Font.PLAIN, 12));
+		activo.setBounds(150, 10, 200, 100);
+		bg.add(activo);
 		JRadioButton inactivo = new JRadioButton("inactivo", false);
+		inactivo.setFont(new Font("Serig", Font.PLAIN, 12));
+		inactivo.setBounds(150, 10, 200, 100);
+		bg.add(inactivo);
 		activo.setBounds(100, 450, 100, 30);
 		inactivo.setBounds(200, 450, 100, 30);
 		panelCrear.add(activo);
@@ -194,7 +235,11 @@ public class General {
 		l7.setBounds(60, 380, 180, 80);
 		panelCrear.add(l7);
 
-		
+		if (activo.equals(true)) {
+			u.setActivo(1);
+		}else {
+			u.setActivo(0);
+		}
 		
 		ventana_crear.setTitle("Hoteles GT - Administrador ");
 		ventana_crear.setBounds(500, 150, 500, 600);
@@ -204,7 +249,7 @@ public class General {
 		ventana_crear.add(panelCrear);
 
 		// textfield
-		t6.setText("[dd-mm-yy]");
+		
 		t1.setBounds(180, 100, 200, 30);
 		t2.setBounds(180, 150, 200, 30);
 		t3.setBounds(180, 200, 200, 30);
@@ -237,7 +282,7 @@ public class General {
 				if (!("".equals(t1.getText()))&&!("".equals(t2.getText()))&&!("".equals(t3.getText()))&&!("".equals(t4.getText()))&&!("".equals(t5.getText()))
 						&&!("".equals(t6.getText()))&&!("".equals(t7.getText()))) {
 					
-					cl.agregar(t1.getText(), t2.getText(), Integer.parseInt(t3.getText()),t4.getText(), t5.getText(), t6.getText(),2,u.getActivo(),t7.getText());
+					cl.agregar(t1.getText(), t2.getText(), Integer.parseInt(t3.getText()),t4.getText(), t5.getText(), t6.getText(),2,1,t7.getText());
 					JOptionPane.showMessageDialog(null, "se agregó un nuevo usiario...");
 					t1.setText("");
 					t2.setText("");
@@ -246,6 +291,8 @@ public class General {
 					t5.setText("");
 					t6.setText("");
 					t7.setText("");
+					tabla.repaint();
+					
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "se deben llenar todos los campos");
@@ -260,11 +307,8 @@ public class General {
 		ActionListener elim = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		
-				ventana_crear.setVisible(false);
-				
-		}
-			
+				ventana_crear.dispose();				
+		}			
 		};
 		cancelar.addActionListener(elim);
 		
@@ -340,7 +384,6 @@ public class General {
 		ventana_crear.add(panelCrear);
 
 		// textfield
-		t6.setText("[dd-mm-yy]");
 		t1.setBounds(180, 100, 200, 30);
 		t2.setBounds(180, 150, 200, 30);
 		t3.setBounds(180, 200, 200, 30);
@@ -361,25 +404,29 @@ public class General {
 		guardar.setText("Guardar");
 		guardar.setBounds(100, 500, 100, 30);
 		panelCrear.add(guardar);
-		ActionListener funcion_modificar = new ActionListener() {
+		ActionListener funcion_modif = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				List<Usuarios> lista = cl.listaUsuario();
-				int p = tabla.getSelectedRow();
-				cl.modificar(t1.getText(), t2.getText(), Integer.parseInt(t3.getText()),t4.getText(), t5.getText(), t6.getText(),2,u.getActivo(),t7.getText());
-				JOptionPane.showMessageDialog(null, "se agregó un nuevo usiario...");
-				t1.setText(u.getNombre());
-				t2.setText(u.getApellido());
-			//	t3.setText(u.getTelefono().);
-				t4.setText(u.getDireccion());
-				t5.setText(u.getCorreo());
-				t6.setText(u.getFecha_nacimiento());
-				t7.setText(u.getContrasena());
-		
-			}
-			
+				int x = 1;
+				
+				for (int i = 0; i < lista.size(); i++) {
+					x=x+1;
+				}
+				if (!("".equals(t1.getText()))&&!("".equals(t2.getText()))&&!("".equals(t3.getText()))&&!("".equals(t4.getText()))&&!("".equals(t5.getText()))
+						&&!("".equals(t6.getText()))&&!("".equals(t7.getText()))) {
+					
+					cl.modificar(t1.getText(), t2.getText(), Integer.parseInt(t3.getText()),t4.getText(), t5.getText(), t6.getText(),2,1,t7.getText());
+					JOptionPane.showMessageDialog(null, "se agregó un nuevo usiario...");
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "se deben llenar todos los campos");
+				}
+			}	
 		};
-		guardar.addActionListener(funcion_modificar);
+		guardar.addActionListener(funcion_modif);
 		
 		cancelar.setText("Cancelar");
 		cancelar.setBounds(250, 500, 100, 30);
@@ -387,14 +434,16 @@ public class General {
 		ActionListener elim = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		
-				ventana_crear.setVisible(false);
-				
-		}
-			
+				ventana_crear.dispose();				
+		}			
 		};
 		cancelar.addActionListener(elim);
-		}}
+		}else {
+			JOptionPane.showMessageDialog(null, "Debe seleccionar una fila");
+
+		}
+		tabla.clearSelection(); // deseleccionar la fila
+	}
 	
 	private void eliminar() {
 		JFrame ventana_crear = new JFrame();
@@ -463,7 +512,6 @@ public class General {
 		ventana_crear.add(panelCrear);
 
 		// textfield
-		t6.setText("[dd-mm-yy]");
 		t1.setBounds(180, 100, 200, 30);
 		t2.setBounds(180, 150, 200, 30);
 		t3.setBounds(180, 200, 200, 30);
@@ -492,16 +540,36 @@ public class General {
 		ActionListener elim = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-		
-				ventana_crear.setVisible(false);
-		}
-			
+				ventana_crear.dispose();				
+		}			
 		};
 		cancelar.addActionListener(elim);
 	}
+	private void tabla() {
+		List<Usuarios> lista = cl.listaUsuario();
+		int x = 1;
+		
+		for (int i = 0; i < lista.size(); i++) {
+			x=x+1;
+		}
+		Object[][] o = new Object[x][6];
+		for (int i = 0; i < lista.size(); i++) {
+			o[i][0] = lista.get(i).getUsuario_id();
+			o[i][1] = lista.get(i).getNombre();
+			o[i][2] = lista.get(i).getApellido();
+			o[i][3] = lista.get(i).getRol_id();
+			o[i][4] = lista.get(i).getCorreo();
+			o[i][5] = lista.get(i).getTelefono();
+		}
+		String[] encabezados= {"No.","Nombre","Apellido","Rol","Correo","Teléfono"};
+		tabla =new JTable(o,encabezados);
+		scroll= new JScrollPane(tabla);
+		scroll.setBounds(20, 80, 800, 350);
+	
+	}
+
 	public void ejecutar() {
 		boton();
-		mostrar();
-		
+		tabla();
 	}
 }

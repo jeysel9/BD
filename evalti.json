@@ -1,0 +1,18 @@
+[
+{"type":"header","version":"5.2.0","comment":"Export to JSON plugin for PHPMyAdmin"},
+{"type":"database","name":"evalti"},
+{"type":"table","name":"roles","database":"evalti","data":
+[
+{"rol_id":"1","nombre":"Administrador"},
+{"rol_id":"2","nombre":"Gerente"}
+]
+}
+,{"type":"table","name":"usuarios","database":"evalti","data":
+[
+{"usuario_id":"1","nombre":"Lilia","apellido":"Santizo","telefono":"56464585","direccion":"km 15","correo_electronico":"lilisantizo@gmail.com","fecha_nacimiento":"1964-10-04","rol_id":"1","activo":"1","contrasenia":"ls123"},
+{"usuario_id":"2","nombre":"Carlos","apellido":"Reyes","telefono":"56987412","direccion":"km 10","correo_electronico":"carlosreyes@gmail.com","fecha_nacimiento":"1957-10-14","rol_id":"1","activo":"1","contrasenia":"cr9874"},
+{"usuario_id":"3","nombre":"Michelle","apellido":"Alvarez","telefono":"41526987","direccion":"km 25","correo_electronico":"michellealvarez@gmail.com","fecha_nacimiento":"1972-07-01","rol_id":"1","activo":"1","contrasenia":"ma3698"},
+{"usuario_id":"4","nombre":"Sergio","apellido":"Suruy","telefono":"52565854","direccion":"km 28","correo_electronico":"sergiosuruy@gmail.com","fecha_nacimiento":"1967-01-29","rol_id":"2","activo":"1","contrasenia":"ss9874"}
+]
+}
+]

@@ -46,7 +46,7 @@ public class Inicio {
 
 	public void etiquetas() {
 		//imagen
-		Lblimagen.setBounds(30, 10, 250, 150);
+		Lblimagen.setBounds(10, 10, 250, 150);
 		Lblimagen.setIcon(new ImageIcon("imagen.png"));
 		panel.add(Lblimagen);
 	
@@ -106,17 +106,22 @@ public class Inicio {
 				correcto = true;
 				nombre = (String)ob[i][2].toString();
 				JOptionPane.showMessageDialog(null, "bienvenido");
-				inicio.setVisible(false);
-				Sistema s = new Sistema();
-				s.ejecutar();
-				
-				
+								
 				break;
-			}else{				
-				JOptionPane.showMessageDialog(null, "incorrecto");
+			}else if(intentos == 0){
+				JOptionPane.showMessageDialog(null, "incorrecto- initente nuevamente");
 				System.exit(0);
+			}else{				
+				
 			}
 			
+		}
+		if(correcto) {
+			
+			Sistema s = new Sistema();
+			
+			inicio.setVisible(false);
+			s.ejecutar();
 		}
 		
 	}

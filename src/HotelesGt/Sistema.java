@@ -10,16 +10,9 @@ import javax.swing.*;
 public class Sistema {
 	JFrame menuP = new JFrame();
 	JPanel panel = new JPanel();
-	/*JMenuBar bm = new JMenuBar();
-	JMenu agregar = new JMenu("agregar");
-	JMenu salir = new JMenu("salir");*/
 	JLabel label1 = new JLabel();
-	JTable tabla = new JTable();
-	JScrollPane scroll = new JScrollPane();
+	 General gral = new General();
 
-	General gral = new General();
-
-	Object[][] clientes = new Object[100][6];
 	public void componentes() {
 		menuP.setTitle("Hoteles GT - Usuarios ");
 		menuP.setBounds(500, 300, 900, 600);
