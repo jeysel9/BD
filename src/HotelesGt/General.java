@@ -48,7 +48,7 @@ public class General {
 	Conexion c = new Conexion();
 	Clientes cl = new Clientes();
 	Usuarios u = new Usuarios();
-	Object[][] clientes = new Object[100][6];
+	Object[][] obj = new Object[100][6];
 		
 
 	Usuarios pro = new Usuarios();
@@ -159,7 +159,6 @@ public class General {
 		
 	}
 	
-
 	private void crear() {
 		JFrame ventana_crear = new JFrame();
 		JPanel panelCrear = new JPanel();
@@ -291,7 +290,8 @@ public class General {
 					t5.setText("");
 					t6.setText("");
 					t7.setText("");
-					tabla.repaint();
+					
+					tabla();
 					
 				}
 				else {
@@ -383,6 +383,7 @@ public class General {
 		
 		ventana_crear.add(panelCrear);
 
+		
 		// textfield
 		t1.setBounds(180, 100, 200, 30);
 		t2.setBounds(180, 150, 200, 30);
@@ -391,7 +392,13 @@ public class General {
 		t5.setBounds(180, 300, 200, 30);
 		t6.setBounds(180, 350, 200, 30);
 		t7.setBounds(180, 400, 200, 30);
-
+		
+		t1.setText(tabla.getValueAt(seleccionar, 1).toString());
+		t2.setText(tabla.getValueAt(seleccionar, 2).toString());
+		t3.setText(tabla.getValueAt(seleccionar, 5).toString());
+		t5.setText(tabla.getValueAt(seleccionar, 4).toString());
+		
+		
 		panelCrear.add(t1);
 		panelCrear.add(t2);
 		panelCrear.add(t3);
@@ -407,24 +414,33 @@ public class General {
 		ActionListener funcion_modif = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+		
+				 
 				List<Usuarios> lista = cl.listaUsuario();
 				int x = 1;
 				
 				for (int i = 0; i < lista.size(); i++) {
 					x=x+1;
 				}
-				if (!("".equals(t1.getText()))&&!("".equals(t2.getText()))&&!("".equals(t3.getText()))&&!("".equals(t4.getText()))&&!("".equals(t5.getText()))
-						&&!("".equals(t6.getText()))&&!("".equals(t7.getText()))) {
+			 
 					
 					cl.modificar(t1.getText(), t2.getText(), Integer.parseInt(t3.getText()),t4.getText(), t5.getText(), t6.getText(),2,1,t7.getText());
-					JOptionPane.showMessageDialog(null, "se agregó un nuevo usiario...");
+					JOptionPane.showMessageDialog(null, "se modificó");
 					
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "se deben llenar todos los campos");
-				}
-			}	
+					t1.setText("");
+					t2.setText("");
+					t3.setText("");
+					t4.setText("");
+					t5.setText("");
+					t6.setText("");
+					t7.setText("");
+					
+					tabla();
+					
+				
+				
+				
+			}
 		};
 		guardar.addActionListener(funcion_modif);
 		
@@ -446,6 +462,8 @@ public class General {
 	}
 	
 	private void eliminar() {
+		int seleccionar = tabla.getSelectedRow();
+		if (seleccionar != -1) {
 		JFrame ventana_crear = new JFrame();
 		JPanel panelCrear = new JPanel();
 		panelCrear.setLayout(null);
@@ -520,6 +538,11 @@ public class General {
 		t6.setBounds(180, 350, 200, 30);
 		t7.setBounds(180, 400, 200, 30);
 
+		t1.setText(tabla.getValueAt(seleccionar, 1).toString());
+		t2.setText(tabla.getValueAt(seleccionar, 2).toString());
+		t3.setText(tabla.getValueAt(seleccionar, 5).toString());
+		t5.setText(tabla.getValueAt(seleccionar, 4).toString());
+		
 		panelCrear.add(t1);
 		panelCrear.add(t2);
 		panelCrear.add(t3);
@@ -544,6 +567,12 @@ public class General {
 		}			
 		};
 		cancelar.addActionListener(elim);
+		}else {
+			JOptionPane.showMessageDialog(null, "Debe seleccionar una fila");
+
+		}
+		tabla.clearSelection(); 
+	
 	}
 	private void tabla() {
 		List<Usuarios> lista = cl.listaUsuario();
